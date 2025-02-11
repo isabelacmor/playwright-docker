@@ -26,14 +26,24 @@ To run Playwright accessibility tests in Docker, run:
 
 _Note: You must have Docker installed and running._
 
-This command builds the production version of the app, builds the docker image, then runs the tests in our Docker container. As part of this, we also copy the Playwright results from the Docker container back to the local repository and opens the HTML file.
+This command builds the production version of the app, builds the Docker image, then runs the tests in the Docker container. As part of this, Playwright results are copied from the Docker container back to the local repository. These results can be opened with `pnpm open:playwright-report`.
 
 You can optionally run `pnpm cleanup:docker` to stop the container and delete it.
 
 ### Visual regression
 
-_Coming soon._
+To run Playwright visual regression tests locally, run:
+`pnpm playwright:vrt:local`
+
+_Note: This is not recommended as environment differences will cause pixel differences in screenshots, leading to failures in CI/CD._
+
+To run Playwright visual regression tests in Docker, run:
+`pnpm playwright:vrt:container`
+
+This command builds the production version of the app, builds the Docker image, then runs the tests in the Docker container. As part of this, Playwright results are copied from the Docker container back to the local repository. These results can be opened with `pnpm open:playwright-report`.
+
+You can optionally run `pnpm cleanup:docker` to stop the container and delete it.
 
 ## CI
 
-_Coming soon._
+GitHub actions live in `.github/workflows`. These yaml files are set up to run on every push to PRs. Test reports will be pushed as an artifact for each run and displayed within the action's summary. The full report artifact can be downloaded and viewed locally as well.
