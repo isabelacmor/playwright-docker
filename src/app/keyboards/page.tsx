@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import fs from "fs";
 import path from "path";
@@ -22,10 +21,10 @@ const Page = async () => {
             key={imagePath}
             src={imagePath}
             // Add this to fix accessibility
-            // alt={imagePath
-            //   .replace("/keyboards/", "")
-            //   .replaceAll("_", " ")
-            //   .replace(/\.[a-z]+$/, "")}
+            alt={imagePath
+              .replace("/keyboards/", "")
+              .replaceAll("_", " ")
+              .replace(/\.[a-z]+$/, "")}
           />
         ))}
       </div>
