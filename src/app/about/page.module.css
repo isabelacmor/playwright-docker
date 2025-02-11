@@ -1,0 +1,47 @@
+.aboutContainer {
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+}
+
+.headlineContainer {
+    flex-grow: 1;
+}
+
+.headshotContainer {
+    border-radius: 50%;
+}
+
+.headshotImage {
+    background-color: #56a18a;
+    padding: 10px;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+    margin-right: 48px;
+    flex-shrink: 0;
+}
+
+.bioContainer {
+    flex-grow: 1;
+    font-size: 1.4em;
+}
+
+.tagContainer {
+    display: flex;
+    gap: 12px;
+    color: #0c2c23;
+    font-size: 18px;
+    margin: -12px 0 36px 0;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background-color: #56a18a;
+    padding: 0 14px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}

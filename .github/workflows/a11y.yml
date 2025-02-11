@@ -1,0 +1,64 @@
+name: Run accessibility tests
+
+on:
+  pull_request:
+    branches:
+      - '**'  # This will trigger the action on all PR branches. You can specify specific branches like 'main', 'develop', etc.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # You can use other runners if needed
+
+    steps:
+      # Step 1: Checkout the code from the PR
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js (for Next.js build)
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'  # Adjust Node.js version as per your project needs
+
+      # Step 3: Install dependencies (make sure pnpm is installed if you're using it)
+      - name: Install dependencies
+        run: |
+          npm install -g pnpm  # Install pnpm globally
+          pnpm install         # Install dependencies using pnpm
+
+      # Step 4: Run the test command - builds the NextJS app, the Docker container, and runs tests
+      - name: Run tests
+        run: pnpm playwright:a11y:container
+
+      # Step 5: Custom condition to fail job if the tests step failed
+      - name: Check test result and fail job if needed
+        if: failure()  # This will run only if the previous step fails
+        run: |
+          echo "Tests failed, marking job as failed"
+          exit 1  # Explicitly fail the job
+
+      - name: Copy test results from Docker container to host
+        if: always()
+        run: pnpm copy:docker-report
+
+      # Step 6: Upload Playwright reports as artifacts
+      - name: Upload Playwright JSON and HTML report artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report  # Artifact name
+          path: playwright-report/
+
+      # Step 7: Render the JSON report in the job for easier debugging
+      - name: Publish Test Report
+        uses: ctrf-io/github-test-reporter@v1
+        with:
+          report-path: 'playwright-report/*.json'
+        if: always()
+
+      # Step 8: Clean up Docker images (to save space on the runner)
+      - name: Clean up Docker images
+        if: always()
+        run: |
+          docker container prune -f  # Remove the container
+          docker image prune -f      # Remove unused images

@@ -1,0 +1,12 @@
+.nav>ul {
+  padding: 36px 48px;
+  list-style: none;
+  display: flex;
+  gap: 36px;
+}
+
+.navLink[aria-current] {
+  color: var(--linkPrimary);
+  border-bottom: 2px solid var(--linkPrimary);
+  padding-bottom: 10px;
+}

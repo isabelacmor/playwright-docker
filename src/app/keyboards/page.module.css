@@ -1,0 +1,11 @@
+.keyboardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.keyboardImage {
+  height: 200px;
+  width: auto;
+  border-radius: 16px;
+}

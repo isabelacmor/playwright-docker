@@ -1,0 +1,38 @@
+{
+  "name": "react-miami-2025",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "playwright:generate-urls": "playwright test utils",
+    "playwright:a11y:local": "pnpm playwright:generate-urls && playwright test a11y && pnpm open:playwright-report",
+    "playwright:vrt:local": "pnpm playwright:generate-urls && playwright test vrt && pnpm open:playwright-report",
+    "playwright:a11y:container": "pnpm build && pnpm build:docker && TEST_TYPE=a11y pnpm run:docker",
+    "playwright:vrt:container": "pnpm build && pnpm build:docker && TEST_TYPE=vrt pnpm run:docker",
+    "build:docker": "docker build -t react-miami-2025-playwright .",
+    "run:docker": "docker run -e TEST_TYPE react-miami-2025-playwright",
+    "copy:docker-report": "docker cp $(docker ps -alq):/app/playwright-report ./playwright-report && docker cp $(docker ps -alq):/app/test-results ./test-results",
+    "open:playwright-report": "open ./playwright-report/index.html",
+    "cleanup:docker": "docker stop $(docker ps -alq) && docker rm $(docker ps -alq)"
+  },
+  "dependencies": {
+    "@axe-core/playwright": "^4.10.1",
+    "next": "15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.50.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.6",
+    "playwright-ctrf-json-reporter": "^0.0.18",
+    "typescript": "^5"
+  }
+}
